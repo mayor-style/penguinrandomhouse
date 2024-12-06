@@ -611,8 +611,7 @@ const App = () => {
                 </button>
               </div>
               <div>
-                <p className="text-white text-[15px] font-sans font-semibold">
-                  Important:{" "}
+                <p className="text-white text-[15px] font-sans font-semibold text-center">
                   <small className="text-white text-[14px] font-sans font-normal">
                     After submitting your work, you will receive a confirmation
                     email acknowledging your submission. If your submission is
