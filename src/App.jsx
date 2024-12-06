@@ -1,6 +1,9 @@
 import "./../src/App.css";
 import logo from "../src/assets/prh-logo.svg";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import axios from "axios";
 
 const App = () => {
   const [formDetails, setFormDetails] = useState({
@@ -24,6 +27,7 @@ const App = () => {
     bookFile: "",
     pitch: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   console.log(formDetails);
 
@@ -160,9 +164,88 @@ const App = () => {
     }));
   };
 
+  const validateEmail = (email) => {
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const baseUrl = import.meta.env.VITE_API_URL;
+  console.log("API URL:", baseUrl);
+
+  const handleSubmission = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
+    setIsSubmitting(true); // Indicate that the form is being submitted
+
+    console.log(formDetails); // Log form details for debugging
+
+    // Check required fields for book submission
+    if (
+      !formDetails.firstname ||
+      !formDetails.lastname ||
+      !formDetails.email ||
+      !formDetails.phone ||
+      !formDetails.biography ||
+      !formDetails.biography ||
+      !formDetails.bookTitle ||
+      !formDetails.bookGenre ||
+      !formDetails.bookSynopsis ||
+      !formDetails.bookFile
+    ) {
+      setIsSubmitting(false); // Reset submitting state
+      return toast.error("Please fill out all required fields.");
+    }
+
+    // Validate email format (if applicable to the form)
+    if (formDetails.email && !validateEmail(formDetails.email)) {
+      setIsSubmitting(false);
+      return toast.error("Invalid email format.");
+    }
+
+    try {
+      // Send book submission data to the backend
+      const response = await axios.post(`${baseUrl}/submit-book`, formDetails);
+      toast.success("Book submission successful!");
+      console.log("Response:", response.data);
+
+      // Reset form state if needed
+      setFormDetails({
+        firstname: "",
+        lastname: "",
+        email: "",
+        phone: "",
+        biography: "",
+        websiteAddress: "",
+        blogAddress: "",
+        twitterHandle: "",
+        everPublishedaBook: "",
+        everRepresentedbyAgent: "",
+        whoReferred: "",
+        bookInspiration: "",
+        bookTitle: "",
+        bookGenre: "",
+        bookWordCount: "",
+        bookEverPublished: "",
+        bookSynopsis: "",
+        bookFile: "",
+        pitch: "",
+      });
+    } catch (err) {
+      setIsSubmitting(false); // Reset submitting state on error
+      console.error("Error during book submission:", err);
+
+      // Handle specific error message from backend
+      if (err.response?.data?.message) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    }
+  };
+
   return (
     <>
-      <div className="py-[40px]">
+      <div className="py-[60px]">
         <div>
           <div className="flex justify-center">
             <img className="w-[150px]" src={logo} alt="" />
@@ -183,7 +266,7 @@ const App = () => {
             </p>
           </div>
         </div>
-        <form action="">
+        <form onSubmit={handleSubmission}>
           <div className="mt-[60px] lg:px-[80px] px-[10px]">
             <div className="bg-[rgb(68,68,68)] px-[15px] py-[40px] ">
               <div>
@@ -207,7 +290,6 @@ const App = () => {
                     placeholder="author's first name"
                     type="text"
                     name="firstname"
-                    required
                     onChange={handleFirstnameChange}
                   />
                 </div>
@@ -223,7 +305,6 @@ const App = () => {
                     placeholder="author's last name"
                     type="text"
                     name="lastname"
-                    required
                     onChange={handleLastnameChange}
                   />
                 </div>
@@ -241,7 +322,6 @@ const App = () => {
                     placeholder="your e-mail address"
                     type="text"
                     name="email"
-                    required
                     onChange={handleEmailChange}
                   />
                 </div>
@@ -257,7 +337,6 @@ const App = () => {
                     placeholder="your phone number"
                     type="text"
                     name="phone"
-                    required
                     onChange={handlePhoneChange}
                   />
                 </div>
@@ -274,10 +353,9 @@ const App = () => {
                   <textarea
                     className="mt-[10px] w-full h-[200px] p-[15px] outline-none border-[1.5px] text-[15px] font-sans focus:border-[rgb(255,111,0)] "
                     name="biography"
-                    required
                     onChange={handleBiographyChange}
                   ></textarea>
-                  <p className="text-white font-sans text-[13px] mt-[10px]">
+                  <p className="text-white font-sans text-[14px] mt-[10px]">
                     Tell us a little about yourself and any writing credentials
                     you may have.
                   </p>
@@ -442,7 +520,6 @@ const App = () => {
                     placeholder="your book's title"
                     type="text"
                     name="bookTitle"
-                    required
                     onChange={handleBookTitleChange}
                   />
                 </div>
@@ -458,10 +535,9 @@ const App = () => {
                     placeholder="your book's genre"
                     type="text"
                     name="bookGenre"
-                    required
                     onChange={handleBookGenreChange}
                   />
-                  <p className="font-sans text-[13px] text-white">
+                  <p className="font-sans text-[14px] text-white">
                     Please ensure you accurately specify the genre of your work,
                     as incorrect categorization may lead to rejection.
                   </p>
@@ -478,12 +554,11 @@ const App = () => {
                     placeholder="approximate word count"
                     type="text"
                     name="bookWordCount"
-                    required
                     onChange={handleBookWordCountChange}
                   />
-                  <p className="font-sans text-[13px] text-white">
+                  <p className="font-sans text-[14px] text-white">
                     Enter the approximate{" "}
-                    <small className="font-sans text-[13px] text-white font-bold">
+                    <small className="font-sans text-[14px] text-white font-bold">
                       WORD
                     </small>{" "}
                     count of your book. Enter numbers only. Do not include any
@@ -532,10 +607,9 @@ const App = () => {
                   <textarea
                     className="mt-[10px] w-full h-[200px] p-[15px] outline-none border-[1.5px] text-[15px] font-sans focus:border-[rgb(255,111,0)] "
                     name="bookSynopsis"
-                    required
                     onChange={handleBookSynopsisChange}
                   ></textarea>
-                  <p className="font-sans text-[13px] text-white">
+                  <p className="font-sans text-[14px] text-white">
                     Enter a short synopsis of your book. Avoid pasting large
                     blocks of text, as this may cause delays or slow processing
                   </p>
@@ -588,7 +662,6 @@ const App = () => {
                   <textarea
                     className="mt-[10px] w-full h-[100px] p-[15px] outline-none border-[1.5px] text-[15px] font-sans focus:border-[rgb(255,111,0)] "
                     name="pitch"
-                    required
                     onChange={handlePitchChange}
                   ></textarea>
                   <p className="font-sans text-[14px] text-white">
