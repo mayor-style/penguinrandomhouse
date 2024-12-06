@@ -185,7 +185,7 @@ const App = () => {
         </div>
         <form action="">
           <div className="mt-[60px] lg:px-[80px] px-[10px]">
-            <div className="bg-[rgb(68,68,68)] p-[15px] ">
+            <div className="bg-[rgb(68,68,68)] px-[15px] py-[40px] ">
               <div>
                 <p className="lg:text-[25px] text-[22px] text-white font-sans font-semibold">
                   Step 1. Tell us about the author
@@ -420,7 +420,7 @@ const App = () => {
             </div>
           </div>
           <div className="lg:mt-[60px] mt-[30px] lg:px-[80px] px-[10px]">
-            <div className="bg-[rgb(68,68,68)] p-[15px] ">
+            <div className="bg-[rgb(68,68,68)] px-[15px] py-[40px] ">
               <div>
                 <p className="lg:text-[25px] text-[22px] text-white font-sans font-semibold">
                   Step 2. Tell us about the book
@@ -599,7 +599,7 @@ const App = () => {
             </div>
           </div>
           <div className="lg:mt-[60px] mt-[30px] lg:px-[80px] px-[10px]">
-            <div className="bg-[rgb(68,68,68)] p-[15px] flex flex-col gap-[30px] ">
+            <div className="bg-[rgb(68,68,68)] px-[15px] py-[40px] flex flex-col gap-[30px] ">
               <div>
                 <p className="lg:text-[25px] text-[22px] text-white font-sans font-semibold">
                   Final Step: Submission
@@ -613,7 +613,7 @@ const App = () => {
               <div>
                 <p className="text-white text-[15px] font-sans font-semibold">
                   Important:{" "}
-                  <small className="text-white text-[13px] font-sans font-normal">
+                  <small className="text-white text-[14px] font-sans font-normal">
                     After submitting your work, you will receive a confirmation
                     email acknowledging your submission. If your submission is
                     approved or rejected, you will be notified via email with
