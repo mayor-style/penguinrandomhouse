@@ -24,9 +24,9 @@ const App = () => {
     bookWordCount: "",
     bookEverPublished: "",
     bookSynopsis: "",
-    bookFile: "",
     pitch: "",
   });
+  const [bookFile, setBookFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   console.log(formDetails);
@@ -151,10 +151,7 @@ const App = () => {
   };
 
   const handleBookFileChange = (e) => {
-    setFormDetails((prevDetails) => ({
-      ...prevDetails,
-      [e.target.name]: e.target.files,
-    }));
+    setBookFile(e.target.files[0]);
   };
 
   const handlePitchChange = (e) => {
@@ -179,67 +176,93 @@ const App = () => {
 
     console.log(formDetails); // Log form details for debugging
 
-    // Check required fields for book submission
-    if (
-      !formDetails.firstname ||
-      !formDetails.lastname ||
-      !formDetails.email ||
-      !formDetails.phone ||
-      !formDetails.biography ||
-      !formDetails.biography ||
-      !formDetails.bookTitle ||
-      !formDetails.bookGenre ||
-      !formDetails.bookSynopsis ||
-      !formDetails.bookFile
-    ) {
-      setIsSubmitting(false); // Reset submitting state
-      return toast.error("Please fill out all required fields.");
+    // List of required fields
+    const requiredFields = [
+      "firstname",
+      "lastname",
+      "email",
+      "phone",
+      "biography",
+      "bookTitle",
+      "bookGenre",
+      "bookSynopsis",
+    ];
+
+    // Check for missing required fields
+    for (let field of requiredFields) {
+      if (!formDetails[field]) {
+        setIsSubmitting(false);
+        return toast.error(`Please fill out the ${field} field.`);
+      }
     }
 
-    // Validate email format (if applicable to the form)
+    // Check if a book file is selected
+    if (!bookFile) {
+      setIsSubmitting(false);
+      return toast.error("Please select a file!");
+    }
+
+    // Validate email format
     if (formDetails.email && !validateEmail(formDetails.email)) {
       setIsSubmitting(false);
       return toast.error("Invalid email format.");
     }
 
+    // Prepare FormData for submission
+    const formData = new FormData();
+    formData.append("bookFile", bookFile); // Append the book file
+
+    // Append other form details to FormData
+    for (const [key, value] of Object.entries(formDetails)) {
+      formData.append(key, value);
+    }
+
     try {
-      // Send book submission data to the backend
-      const response = await axios.post(`${baseUrl}/submit-book`, formDetails);
+      // Send form data to the backend
+      const response = await axios.post(`${baseUrl}/submit`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important for file uploads
+        },
+      });
+
       toast.success("Book submission successful!");
       console.log("Response:", response.data);
 
-      // Reset form state if needed
-      setFormDetails({
-        firstname: "",
-        lastname: "",
-        email: "",
-        phone: "",
-        biography: "",
-        websiteAddress: "",
-        blogAddress: "",
-        twitterHandle: "",
-        everPublishedaBook: "",
-        everRepresentedbyAgent: "",
-        whoReferred: "",
-        bookInspiration: "",
-        bookTitle: "",
-        bookGenre: "",
-        bookWordCount: "",
-        bookEverPublished: "",
-        bookSynopsis: "",
-        bookFile: "",
-        pitch: "",
-      });
+      // Optionally, reset the form after successful submission
+      // setFormDetails({
+      //   firstname: "",
+      //   lastname: "",
+      //   email: "",
+      //   phone: "",
+      //   biography: "",
+      //   websiteAddress: "",
+      //   blogAddress: "",
+      //   twitterHandle: "",
+      //   everPublishedaBook: "",
+      //   everRepresentedbyAgent: "",
+      //   whoReferred: "",
+      //   bookInspiration: "",
+      //   bookTitle: "",
+      //   bookGenre: "",
+      //   bookWordCount: "",
+      //   bookEverPublished: "",
+      //   bookSynopsis: "",
+      //   bookFile: null, // Reset bookFile to null
+      //   pitch: "",
+      // });
     } catch (err) {
-      setIsSubmitting(false); // Reset submitting state on error
-      console.error("Error during book submission:", err);
+      // Handle error by resetting submission state
+      setIsSubmitting(false);
 
-      // Handle specific error message from backend
-      if (err.response?.data?.message) {
-        toast.error(err.response.data.message);
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
+      console.error("Error during book submission:", err);
+      // Show a user-friendly error message
+      const errorMessage =
+        err.response?.data?.message ||
+        "Something went wrong. Please try again.";
+      toast.error(errorMessage);
+    } finally {
+      // Reset the isSubmitting state
+      setIsSubmitting(false);
     }
   };
 
