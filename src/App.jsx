@@ -220,9 +220,8 @@ const App = () => {
     try {
       // Send form data to the backend
       const response = await axios.post(`${baseUrl}/submit`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data", // Important for file uploads
-        },
+        method: "POST",
+        // No need to set "Content-Type" manually as Axios will handle it for you
       });
 
       toast.success("Book submission successful!");
