@@ -2,6 +2,7 @@ import "./../src/App.css";
 import logo from "../src/assets/prh-logo.svg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Oval } from "react-loader-spinner";
 import { toast } from "sonner";
 import axios from "axios";
 
@@ -28,6 +29,7 @@ const App = () => {
   });
   const [bookFile, setBookFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
   console.log(formDetails);
 
@@ -169,6 +171,12 @@ const App = () => {
 
   const baseUrl = import.meta.env.VITE_API_URL;
   console.log("API URL:", baseUrl);
+  const navigateTo = useNavigate();
+
+  const handleRedirect = () => {
+    // This will navigate to an external URL
+    window.location.href = "https://www.penguinrandomhouse.com"; // Redirect to the external website
+  };
 
   const handleSubmission = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
@@ -221,34 +229,21 @@ const App = () => {
       // Send form data to the backend
       const response = await axios.post(`${baseUrl}/submit`, formData, {
         method: "POST",
-        // No need to set "Content-Type" manually as Axios will handle it for you
       });
 
       toast.success("Book submission successful!");
       console.log("Response:", response.data);
 
-      // Optionally, reset the form after successful submission
-      // setFormDetails({
-      //   firstname: "",
-      //   lastname: "",
-      //   email: "",
-      //   phone: "",
-      //   biography: "",
-      //   websiteAddress: "",
-      //   blogAddress: "",
-      //   twitterHandle: "",
-      //   everPublishedaBook: "",
-      //   everRepresentedbyAgent: "",
-      //   whoReferred: "",
-      //   bookInspiration: "",
-      //   bookTitle: "",
-      //   bookGenre: "",
-      //   bookWordCount: "",
-      //   bookEverPublished: "",
-      //   bookSynopsis: "",
-      //   bookFile: null, // Reset bookFile to null
-      //   pitch: "",
-      // });
+      // Set submission success state and trigger redirection
+      setTimeout(() => {
+        setSubmissionSuccess(true);
+        setIsSubmitting(false);
+
+        // Redirect to home page after successful submission
+        setTimeout(() => {
+          handleRedirect(); // Redirect to the home page
+        }, 2000); // Delay before redirect to allow the message to be shown
+      }, 2000);
     } catch (err) {
       // Handle error by resetting submission state
       setIsSubmitting(false);
@@ -720,8 +715,35 @@ const App = () => {
           </div>
         </form>
       </div>
+      <div
+        className={` ${
+          isSubmitting || submissionSuccess ? "flex" : "hidden"
+        } bg-white bg-opacity-70  fixed top-0 bottom-0 left-0 right-0 flex-col justify-center items-center `}
+      >
+        <Oval
+          visible={true}
+          height="50"
+          color="rgb(255,111,0)"
+          secondaryColor="rgb(248, 245, 240)"
+          radius="9"
+          ariaLabel="oval-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+
+        <div className="mt-[10px]">
+          <p className="font-sans text-[18px]">
+            {isSubmitting && !submissionSuccess
+              ? "Submitting..."
+              : !isSubmitting && submissionSuccess
+              ? "Submitted. Redirecting to home page..."
+              : ""}
+          </p>
+        </div>
+      </div>
     </>
   );
 };
 
 export default App;
+5;
