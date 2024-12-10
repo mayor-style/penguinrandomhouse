@@ -193,7 +193,9 @@ const App = () => {
       "biography",
       "bookTitle",
       "bookGenre",
+      "bookWordCount",
       "bookSynopsis",
+      "pitch",
     ];
 
     // Check for missing required fields
@@ -238,11 +240,7 @@ const App = () => {
       setTimeout(() => {
         setSubmissionSuccess(true);
         setIsSubmitting(false);
-
-        // Redirect to home page after successful submission
-        setTimeout(() => {
-          handleRedirect(); // Redirect to the home page
-        }, 2000); // Delay before redirect to allow the message to be shown
+        handleRedirect(); // Redirect to the home page
       }, 2000);
     } catch (err) {
       // Handle error by resetting submission state
@@ -736,7 +734,7 @@ const App = () => {
             {isSubmitting && !submissionSuccess
               ? "Submitting..."
               : !isSubmitting && submissionSuccess
-              ? "Submitted. Redirecting to home page..."
+              ? "Submission succesfull. Redirecting you back to our home page..."
               : ""}
           </p>
         </div>
