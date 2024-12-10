@@ -233,28 +233,28 @@ const App = () => {
         method: "POST",
       });
 
-      toast.success("Book submission successful!");
       console.log("Response:", response.data);
 
-      // Set submission success state and trigger redirection
+      // Keep the submitting screen visible for 5 seconds
       setTimeout(() => {
-        setSubmissionSuccess(true);
-        setIsSubmitting(false);
-        handleRedirect(); // Redirect to the home page
-      }, 2000);
+        setIsSubmitting(false); // Hide spinner after 5 seconds
+        setSubmissionSuccess(true); // Show success state
+
+        // Start redirection after 2 seconds of showing the success message
+        setTimeout(() => {
+          handleRedirect(); // Redirect after success message
+        }, 2000); // 2 seconds delay before redirecting
+      }, 3000); // Keep submitting screen visible for 5 seconds
     } catch (err) {
       // Handle error by resetting submission state
       setIsSubmitting(false);
-
       console.error("Error during book submission:", err);
+
       // Show a user-friendly error message
       const errorMessage =
         err.response?.data?.message ||
         "Something went wrong. Please try again.";
       toast.error(errorMessage);
-    } finally {
-      // Reset the isSubmitting state
-      setIsSubmitting(false);
     }
   };
 
@@ -734,7 +734,7 @@ const App = () => {
             {isSubmitting && !submissionSuccess
               ? "Submitting..."
               : !isSubmitting && submissionSuccess
-              ? "Submission succesfull. Redirecting you back to our home page..."
+              ? "Submission Successful! Redirecting..."
               : ""}
           </p>
         </div>
