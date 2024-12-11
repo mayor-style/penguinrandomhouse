@@ -175,7 +175,7 @@ const App = () => {
 
   const handleRedirect = () => {
     // This will navigate to an external URL
-    window.location.href = "https://www.penguinrandomhouse.com"; // Redirect to the external website
+    window.location.href = "https://www.penguinrandomhouse.com/books/"; // Redirect to the external website
   };
 
   const handleSubmission = async (e) => {
@@ -265,8 +265,8 @@ const App = () => {
           <div className="flex justify-center">
             <img className="w-[150px]" src={logo} alt="" />
           </div>
-          <div className="flex flex-col justify-center items-center mt-[30px] px-[15px]">
-            <p className="lg:text-[30px] text-[25px] text-center">
+          <div className="flex flex-col justify-center items-center mt-[30px] px-[25px]">
+            <p className="lg:text-[32px] text-[25px] text-center font-semibold">
               Submit Your Literary Work for Review and Publication
             </p>
             <p className="lg:mt-[10px] mt-[20px] font-sans text-[17px] lg:text-[16px] lg:w-[900px] lg:text-center text-center leading-[25px] lg:leading-0">
