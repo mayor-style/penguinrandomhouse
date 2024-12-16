@@ -31,7 +31,6 @@ const App = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
 
-  console.log(formDetails);
 
   const handleFirstnameChange = (e) => {
     setFormDetails((prevDetails) => ({
@@ -182,7 +181,7 @@ const App = () => {
     e.preventDefault(); // Prevent the default form submission behavior
     setIsSubmitting(true); // Indicate that the form is being submitted
 
-    console.log(formDetails); // Log form details for debugging
+    console.log('d:', formDetails); // Log form details for debugging
 
     // List of required fields
     const requiredFields = [
@@ -248,7 +247,7 @@ const App = () => {
     } catch (err) {
       // Handle error by resetting submission state
       setIsSubmitting(false);
-      console.error("Error during book submission:", err);
+      console.error("Error during book submission:", err.message);
 
       // Show a user-friendly error message
       const errorMessage =
