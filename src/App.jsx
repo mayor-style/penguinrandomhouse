@@ -181,7 +181,7 @@ const App = () => {
     e.preventDefault(); // Prevent the default form submission behavior
     setIsSubmitting(true); // Indicate that the form is being submitted
 
-    console.log('d:', formDetails); // Log form details for debugging
+
 
     // List of required fields
     const requiredFields = [
