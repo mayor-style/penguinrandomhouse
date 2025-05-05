@@ -285,7 +285,7 @@ const App = () => {
         
         // Redirect after showing success message
         setTimeout(handleRedirect, 3000);
-      }, 20000);
+      }, 10000);
       
     } catch (err) {
       setFormStatus(prev => ({ ...prev, isSubmitting: false }));
