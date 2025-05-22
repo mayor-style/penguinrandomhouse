@@ -284,7 +284,7 @@ const App = () => {
         }));
         
         // Redirect after showing success message
-        setTimeout(handleRedirect, 3000);
+        setTimeout(handleRedirect, 5000);
       }, 10000);
       
     } catch (err) {
@@ -413,11 +413,16 @@ const App = () => {
           />
         </div>
         <h1 className="max-md:text-3xl text-4xl font-bold text-black mb-4">
-          Manuscript Submission
+          Submit Your Manuscript to Macmillan’s Talent Discovery Portal
         </h1>
         <p className="max-md:text-sm text-lg text-gray-600 max-w-3xl mx-auto">
-          Macmillan Publishers is one of the largest global trade book publishers. We're always looking for fresh, 
-          compelling voices to add to our distinguished catalog of bestselling authors.
+         Ready to Take the Leap?
+
+    If you believe your story deserves a place in the world, we want to hear it.
+    This is not just a submission form — it’s your doorway into Macmillan’s elite talent discovery and development ecosystem.
+    Whether you’re a debut writer or an undiscovered gem, we’re actively scouting for voices that move, challenge, and endure.
+
+
         </p>
         
         {/* Progress bar */}
@@ -425,7 +430,7 @@ const App = () => {
           <div className="relative pt-1">
             <div className="flex items-center justify-between mb-2">
               <div className="text-sm font-medium text-black">
-                Step {formStatus.currentStep} of 3
+                Discovery Stage {formStatus.currentStep} of 3
               </div>
               <div className="text-sm font-medium text-gray-500">
                 {formStatus.progress}% Complete
@@ -452,7 +457,7 @@ const App = () => {
                   Author Information
                 </h2>
                 <p className="text-sm text-gray-300 mt-1">
-                  Tell us about yourself and your writing background
+                  We champion writers as much as writing. Briefly tell us who you are.
                 </p>
               </div>
               
@@ -463,14 +468,14 @@ const App = () => {
                 </div>
                 
                 <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
-                  {renderField("email", "Email Address", "email", true, "Enter your email address")}
-                  {renderField("phone", "Phone Number", "text", true, "Enter your phone number")}
+                  {renderField("email", "Email Address", "email", true, "For confidential feedback, review updates, and next steps.")}
+                  {renderField("phone", "Phone Number", "text", true, "Only used if your work moves to internal consideration.")}
                 </div>
                 
                 {renderField("country", "Country", "select", true, "Select your country", "Please select the country where you currently reside.", countries)}
                 
                 {renderField("biography", "Biography", "textarea", true, 
-                  "Tell us about yourself...", 
+                  "Make us curious. What makes you unforgettable as an author?", 
                   "Include your background, writing experience, and any relevant credentials.")}
                 
                 <div className="border-t border-gray-200 my-8"></div>
@@ -490,7 +495,7 @@ const App = () => {
                 
                 {renderField("bookInspiration", "What inspired this work?", "textarea", false, 
                   "Share the inspiration behind your book...", 
-                  "Tell us what motivated you to write this book and any influences.")}
+                  "What sparked this book, and why now?")}
                 
                 <div className="flex justify-end mt-8">
                   <button
@@ -516,13 +521,13 @@ const App = () => {
                   Book Information
                 </h2>
                 <p className="text-sm text-gray-300 mt-1">
-                  Tell us about your manuscript
+                  Tell us about your book that could change everything
                 </p>
               </div>
               
               <div className="p-8 space-y-6">
                 <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
-                  {renderField("bookTitle", "Book Title", "text", true, "Enter your book's title")}
+                  {renderField("bookTitle", "Book Title", "text", true, "The first signal of your voice. Make it memorable.")}
                   {renderField("bookGenre", "Genre", "select", true, "Select your book's genre", 
                     "Please accurately specify your genre, as incorrect categorization may affect review.", genres)}
                   {renderField("bookWordCount", "Word Count", "text", true, "e.g., 75000", 
@@ -540,10 +545,10 @@ const App = () => {
                 <div className="border-t border-gray-200 my-8"></div>
                 
                 {renderField("bookFile", "First 10 Pages", "file", true, "",
-                  "For shorter works like picture books, please include the entire text. Acceptable formats: .doc, .docx (Max 2MB)")}
+                  "For shorter works like picture books, please include the entire text. Acceptable formats: .doc, pdf, .docx (Max 5MB)")}
                 
                 {renderField("pitch", "Elevator Pitch", "textarea", true, 
-                  "A one-sentence pitch for your book...", 
+                  "Imagine this on a Netflix pitch deck. What’s the hook?", 
                   "Capture the essence of your book in a compelling one-sentence pitch.")}
                 
                 <div className="flex justify-between mt-8">
@@ -694,9 +699,9 @@ const App = () => {
                 
                 <div className="bg-gray-50 rounded-md p-6 border border-gray-100">
                   <p className="text-sm text-gray-700">
-                    By submitting, you confirm that this work is your own original creation. After submission, 
-                    you will receive a confirmation email. Our team will review your work, and you'll be 
-                    notified of our decision via email within 2 to 5 business days.
+                   By submitting, you confirm this is your original work.
+                  Your submission will be reviewed by a Macmillan-affiliated acquisitions scout.
+                  Selected works may be fast-tracked for internal development consideration.
                   </p>
                 </div>
                 
@@ -773,7 +778,7 @@ const App = () => {
                   </svg>
                 </div>
                 <h3 className="text-xl font-medium text-gray-900 mb-2">Submission Successful!</h3>
-                <p className="text-gray-600 mb-4">Thank you for sharing your work with Macmillan Publishers.</p>
+                <p className="text-gray-600 mb-4">Your manuscript is now under confidential review by our editorial team. If we see potential, we’ll extend a formal Discovery Invitation. No need to follow up...we’ll reach out.</p>
                 <p className="text-sm text-gray-400">Redirecting to our website...</p>
               </>
             )}
